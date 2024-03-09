@@ -30,7 +30,7 @@ function ShowPictorialCancel() {
   const [pictorialCancel,setPictorialCancel] = useState(samplePCData);
   
   return (
-    <div>
+    <div className="pc-module">
       {pictorialCancel.map((pc) => (
         <div key={pc.PCId}>
           <p>ID: {pc.PCId}</p>
