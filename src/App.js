@@ -60,29 +60,49 @@ const samplePCData = [
   }
 ]
 
+const logoImage = 1;
+
 function ShowPictorialCancel() {
   const [pictorialCancel,setPictorialCancel] = useState(samplePCData);
   
   return (
-    <div>
+    <div className="pc-module">
       {pictorialCancel.map((pc) => (
-        <div key={pc.PCId}>
-          <p>ID: {pc.PCId}</p>
+        <div className="pc-single" key={pc.PCId}>
           <img src={pc.Image} alt='stamp_image'/>
-          <p>Name: {pc.PCName}</p>
+          <p>{pc.PCName}</p>
         </div>
       ))}
     </div>
   );
 }
+
+function ShowWebLogo() {
+  const [webLogo, setWebLogo] = useState(logoImage);
+
+  return (
+    <div className='webLogo'>
+      <img src={logoImage}/>
+    </div>
+  );
+}
+
 function App() {
   const [pictorialCancel,setPictorialCancel] = useState();
 
   return (
+    <div>
+    <div>
+      <header>
+        <ShowWebLogo />
+      </header>
+    </div>
+
     <div className="pictorialCancel">
       <header className="pictorialCancel-header">
         <ShowPictorialCancel />
       </header>
+    </div>
     </div>
   );
 }
