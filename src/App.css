@@ -8,7 +8,35 @@
 }
 
 .pc-module {
+  display: flex;
   text-align: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.pc-single {
+  border: 2px solid black;
+  padding: 10px;
+  display: inline-block;
+  width: 150px;
+  height: 190px;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.webLogo {
+  height: 100px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+img {
+  margin-top: 5px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 
 @media (prefers-reduced-motion: no-preference) {
