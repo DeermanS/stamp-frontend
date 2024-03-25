@@ -10,7 +10,6 @@ import React, { useEffect, useState, ReactNode} from 'react';
 const samplePCData = [
   {
     // sample data 1
-    PCId: 1,
     PCName: "CHERRY GROVE - CHERRY",
     PCInfo: "cherry season, a city of cherry festival",
     Image: "https://www.canadapost-postescanada.ca/cpc//assets/cpc/uploads/cancels/alberta/AB_Cherry_Grove_19755.jpg",
@@ -20,7 +19,6 @@ const samplePCData = [
   },
   {
     // sample data 2
-    PCId: 2,
     PCName: "COBBLE HILL - GRAPES",
     PCInfo: "a city of grapes and wines",
     Image: "https://www.canadapost-postescanada.ca/cpc//assets/cpc/uploads/cancels/britishcolumbia/BC_COBBLE_HILL-19101.jpg",
@@ -30,7 +28,6 @@ const samplePCData = [
   },
   {
     // sample data 3
-    PCId: 3,
     PCName: "PEACHLAND - OGOPOGO",
     PCInfo: "Ogopogo is Kelowna city's mascot ",
     Image: "https://www.canadapost-postescanada.ca/cpc//assets/cpc/uploads/cancels/britishcolumbia/BC_Peachland_21220_.jpg",
@@ -40,7 +37,6 @@ const samplePCData = [
   },
   {
     // sample data 4
-    PCId: 4,
     PCName: "HARVEY STATION - VIOLIN",
     PCInfo: "a historial city with beatutiful violin",
     Image: "https://www.canadapost-postescanada.ca/cpc//assets/cpc/uploads/cancels/newbrunswick/NB_Harvey_Station_21186.jpg",
@@ -50,7 +46,6 @@ const samplePCData = [
   },
   {
     // sample data 5
-    PCId: 5,
     PCName: "CHRISTMAS ISLAND - CHRISTMAS",
     PCInfo: "a place where santa claus lives ",
     Image: "https://www.canadapost-postescanada.ca/cpc//assets/cpc/uploads/cancels/novascotia/NS_Christmas_Island_19003_red.jpg",
@@ -62,13 +57,12 @@ const samplePCData = [
 
 const logoImage = 1;
 
-function ShowPictorialCancel() {
-  const [pictorialCancel,setPictorialCancel] = useState(samplePCData);
+function ShowPictorialCancel({pictorialCancelPara}) {
   
   return (
     <div className="pc-module">
-      {pictorialCancel.map((pc) => (
-        <div className="pc-single" key={pc.PCId}>
+      {pictorialCancelPara.map((pc, index) => (
+        <div className="pc-single"  key={index}>
           <img src={pc.Image} alt='stamp_image'/>
           <p>{pc.PCName}</p>
         </div>
@@ -77,32 +71,137 @@ function ShowPictorialCancel() {
   );
 }
 
-function ShowWebLogo() {
-  const [webLogo, setWebLogo] = useState(logoImage);
-
+function CreatePCForm({createPCSubmit, onChange, userInput}) {
+  const [isActive, setIsActive] = useState(0);
+    
   return (
-    <div className='webLogo'>
-      <img src={logoImage}/>
+    <div className='createPC'>
+      <h1>CreatePC</h1>
+      {isActive ? 
+        <form onSubmit={createPCSubmit}>
+          <div className="input-container">
+            <label>PCName: </label>
+            <input
+              type="text"
+              name="PCName"
+              value={userInput.PCName}
+              lable="PCName"
+              onChange={onChange}
+            />
+          </div>
+          <div className="input-container">
+            <label>PCInfo: </label>
+            <input
+              type="text"
+              name="PCInfo"
+              value={userInput.PCInfo}
+              lable="PCInfo"
+              onChange={onChange}
+            />
+          </div>
+          <div className="input-container">
+            <label>Image: </label>
+            <input
+              type="text"
+              name="Image"
+              value={userInput.Image}
+              lable="Image"
+              onChange={onChange}
+            />
+          </div>
+          <div className="input-container">
+            <label>PCAddress: </label>
+            <input
+              type="text"
+              name="PCAddress"
+              value={userInput.PCAddress}
+              lable="PCAddress"
+              onChange={onChange}
+            />
+          </div>
+          <div className="input-container">
+            <label>PCTag: </label>
+            <input
+              type="text"
+              name="PCTag"
+              value={userInput.PCTag}
+              lable="PCTag"
+              onChange={onChange}
+            />
+          </div>
+          <div className="input-container">
+            <label>PCSize: </label>
+            <input
+              type="text"
+              name="PCSize"
+              value={userInput.PCSize}
+              lable="PCSize"
+              onChange={onChange}
+          />
+          </div>
+          <button variant="contained" type="submit">Create PC</button>
+          <button variant="contained" onClick={() => setIsActive(0)}>
+              Cancel
+            </button>
+        </form>
+        : 
+        <button variant="contained" onClick={() => setIsActive(1)}>
+          Add a new PC
+        </button>
+      }
     </div>
-  );
+  )
 }
 
 function App() {
-  const [pictorialCancel,setPictorialCancel] = useState();
+  const [userInput,setUserInput] = useState({});
+  const [pictorialCancel,setPictorialCancel] = useState(samplePCData);
+
+  function CreatePCSubmit(event) {
+    event.preventDefault();
+    const newPC = {
+      PCName: userInput.PCName,
+      PCInfo: userInput.PCInfo,
+      Image: userInput.Image,
+      PCAddress: userInput.PCAddress,
+      PCTag: userInput.PCTag,
+      PCSize: userInput.PCSize,
+    };
+    setUserInput(newPC);
+    setPictorialCancel(prePC => [...prePC, newPC]);
+    setUserInput({
+      PCName: '',
+      PCInfo: '',
+      Image: '',
+      PCAddress: '',
+      PCTag: '',
+      PCSize: '',
+    });
+  }
+  
+  function OnChange(event) {
+    const {name, value} = event.target;
+    setUserInput((preUserInput) => ({
+      ...preUserInput,
+      [name]: value,
+    }));
+  }
 
   return (
     <div>
-    <div>
       <header>
-        <ShowWebLogo />
+        <div className='webLogo'>
+          <img src={logoImage}/>
+        </div>
       </header>
-    </div>
 
     <div className="pictorialCancel">
       <header className="pictorialCancel-header">
-        <ShowPictorialCancel />
+        <ShowPictorialCancel pictorialCancelPara={pictorialCancel}/>
       </header>
     </div>
+
+    <CreatePCForm createPCSubmit={CreatePCSubmit} onChange={OnChange} userInput={userInput}/>
     </div>
   );
 }
